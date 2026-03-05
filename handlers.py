@@ -7,11 +7,12 @@ from groq import Groq
 from dotenv import load_dotenv
 from photo_ids import PHOTO_IDS
 import os
+from datetime import date
 
 load_dotenv()
 
 user = Router()
-
+vstr_date = date(2026, 1, 5)
 
 
 
@@ -79,3 +80,10 @@ async def bot_info(callback: CallbackQuery):
 async def profil_info(callback: CallbackQuery):
     await callback.answer(text='Профиль Полиши!', show_alert=True)
     await callback.message.answer(text='Профиль Полиши')
+
+@user.message(F.text == 'Счетчик')
+async def counter(message: Message):
+    today = date.today()
+    days_together = (today - vstr_date).days
+    await message.answer(f'Мы вместе уже {days_together} дней! 💖')
+    
