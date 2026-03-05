@@ -19,7 +19,7 @@ vstr_date = date(2026, 1, 5)
 @user.message(CommandStart())
 async def cmd_start(message: Message):
     await message.answer(
-        'Этот бот создан для одного особенного человека 💖',
+        'Этот бот создан для одного особенного человека ',
         reply_markup=kb.menu
     )
 
@@ -61,17 +61,33 @@ async def show_compliments(message: Message):
 @user.message(F.text == 'Нажми сюда')
 async def send_random_photo(message: Message):
     photo_id = random.choice(PHOTO_IDS)
-    await message.answer_photo(photo=photo_id, caption='Одно из наших фото 💕')
+    await message.answer_photo(photo=photo_id, caption='Одно из наших фото 😛 ')
+#счетчик дней вместе
+@user.message(F.text == 'Счетчик')
+async def counter(message: Message):
+    today = date.today()
+    days_together = (today - vstr_date).days
+    await message.answer(f'Мы вместе уже {days_together} дней! 💖')
 #инфа о Полине
 @user.callback_query(F.data == 'pl_polisha')
 async def polisha_info(callback: CallbackQuery):
+    today = date.today()
+    days_together = (today - vstr_date).days
     await callback.answer(text='Информация о Полине!', show_alert=True)
-    await callback.message.answer(text='Информация о Полине: \n\n Полина — девочка, которая: \n • смеётся над моими тупыми шутками уже второй месяц подряд\n • заставляет меня улыбаться даже в самые хмурые дни\n • обладательница самых красивых глаз и самого доброго сердца в мире\n • делает лучшие тт в мире \n• пока не понимает, что я каждый день благодарю вселенную за то, что она именно такая\n • и заствляет биться мое сердце каждый раз, когда я вижу ее глаза')
+    await callback.message.answer(
+        text='Информация о Полине: \n\n Полина — девочка, которая: \n '
+             '• смеётся над моими тупыми шутками уже ' + str(days_together) +
+             ' дней подряд\n • заставляет меня улыбаться даже в самые хмурые дни\n '
+             '• обладательница самых красивых глаз и самого доброго сердца в мире\n '
+             '• делает лучшие тт в мире \n• пока не понимает, что я каждый день '
+             'благодарю вселенную за то, что она именно такая\n '
+             '• и заствляет биться мое сердце каждый раз, когда я вижу ее глаза'
+    )
 #инфа о боте
 @user.callback_query(F.data == 'pl_bot')
 async def bot_info(callback: CallbackQuery):
     await callback.answer(
-        text='Бот создан в честь моей любимой девушки — самого лучшего человека в мире 💖',
+        text='Бот создан в честь моей любимой девушки — самого лучшего человека в мире 💋 ',
         show_alert=True
     )
     await callback.message.answer(text='Информация о боте')
@@ -81,9 +97,4 @@ async def profil_info(callback: CallbackQuery):
     await callback.answer(text='Профиль Полиши!', show_alert=True)
     await callback.message.answer(text='Профиль Полиши')
 
-@user.message(F.text == 'Счетчик')
-async def counter(message: Message):
-    today = date.today()
-    days_together = (today - vstr_date).days
-    await message.answer(f'Мы вместе уже {days_together} дней! 💖')
-    
+
