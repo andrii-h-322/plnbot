@@ -7,6 +7,7 @@ import os
 from groq import Groq
 import os
 from dotenv import load_dotenv
+from photo_ids import PHOTO_IDS
 
 load_dotenv()
 
