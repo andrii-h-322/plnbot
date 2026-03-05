@@ -1,13 +1,12 @@
 from aiogram import F, Router
-from aiogram.types import Message, CallbackQuery, FSInputFile
+from aiogram.types import Message, CallbackQuery
 from aiogram.filters.command import CommandStart, Command
 import keyboards as kb
 import random
-import os
 from groq import Groq
-import os
 from dotenv import load_dotenv
 from photo_ids import PHOTO_IDS
+import os
 
 load_dotenv()
 
@@ -60,13 +59,8 @@ async def show_compliments(message: Message):
 #рандомное фото из папки photos
 @user.message(F.text == 'Нажми сюда')
 async def send_random_photo(message: Message):
-    photos_dir = os.path.join(os.path.dirname(__file__), 'photos')
-    all_photos = [f for f in os.listdir(photos_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
-    
-    random_photo = random.choice(all_photos)
-    photo_path = os.path.join(photos_dir, random_photo)
-    photo = FSInputFile(photo_path)
-    await message.answer_photo(photo=photo, caption='Одно из наших фото 💕')
+    photo_id = random.choice(PHOTO_IDS)
+    await message.answer_photo(photo=photo_id, caption='Одно из наших фото 💕')
 #инфа о Полине
 @user.callback_query(F.data == 'pl_polisha')
 async def polisha_info(callback: CallbackQuery):
