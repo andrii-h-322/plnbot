@@ -97,6 +97,11 @@ async def profil_info(callback: CallbackQuery):
     await callback.answer(text='Профиль Полиши!', show_alert=True)
     await callback.message.answer(text='Профиль Полиши')
 
+@user.message(F.text == 'Напиши мне письмо')
+async def write_letter(message: Message):
+    await message.answer(text='Конечно! Вот что я хочу сказать тебе...')
+    reply_markup = kb.letter
+    
 @user.callback_query(F.data == 'why_love')
 async def why_love(callback: CallbackQuery):
     await callback.answer(text='Почему я тебя люблю', show_alert=True)
